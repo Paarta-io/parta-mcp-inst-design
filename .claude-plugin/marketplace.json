@@ -1,6 +1,6 @@
 {
   "name": "parta-io",
-  "description": "Official Parta plugins for Claude Code — connect Claude to the Parta platform for designing, building, and managing courses.",
+  "description": "Official parta.io plugins for Claude Code — connect Claude to the parta.io platform for designing, building, and managing courses.",
   "owner": {
     "name": "Parta.IO",
     "email": "support@parta.io"
