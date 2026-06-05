@@ -1,9 +1,9 @@
 {
-  "name": "parta-mcp-inst-design",
+  "name": "mcp-inst-design",
   "description": "Design and build Parta courses from Claude Code: create projects, sections, pages, and template-based content blocks, upload media, and assemble structured learning experiences — powered by Parta's hosted Instructional Design MCP server.",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "author": {
-    "name": "Parta",
+    "name": "Parta.IO",
     "email": "support@parta.io"
   },
   "homepage": "https://parta.io",
@@ -13,8 +13,12 @@
     "mcp",
     "instructional-design",
     "course-authoring",
+    "course-creation",
     "e-learning",
-    "lms"
+    "edtech",
+    "lms",
+    "curriculum",
+    "training"
   ],
   "mcpServers": {
     "parta-inst-design": {

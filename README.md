@@ -10,7 +10,7 @@ Design and build Parta courses directly from Claude Code. This plugin connects C
 
 ```text
 /plugin marketplace add paarta-io/parta-mcp-inst-design
-/plugin install parta-mcp-inst-design@parta
+/plugin install mcp-inst-design@parta-io
 /reload-plugins
 ```
 
