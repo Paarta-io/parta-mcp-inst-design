@@ -1,0 +1,21 @@
+{
+  "name": "parta",
+  "owner": {
+    "name": "Parta",
+    "email": "support@parta.io"
+  },
+  "plugins": [
+    {
+      "name": "parta-mcp-inst-design",
+      "source": "./",
+      "description": "Design and build Parta courses from Claude Code through Parta's hosted Instructional Design MCP server.",
+      "category": "productivity",
+      "tags": [
+        "mcp",
+        "instructional-design",
+        "course-authoring",
+        "e-learning"
+      ]
+    }
+  ]
+}
