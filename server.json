@@ -1,0 +1,18 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.parta/inst-design",
+  "title": "Parta Instructional Design",
+  "description": "Build Parta courses: projects, sections, pages, template content blocks, and media.",
+  "version": "1.0.0",
+  "websiteUrl": "https://parta.io",
+  "repository": {
+    "url": "https://github.com/Paarta-io/parta-mcp-inst-design",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.parta.io/inst-design/v1beta"
+    }
+  ]
+}
