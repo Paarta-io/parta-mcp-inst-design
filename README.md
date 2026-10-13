@@ -12,7 +12,7 @@ It's a single **remote** server — no local install, no dependencies. Point you
 | --- | --- |
 | Name | `parta-inst-design` |
 | Transport | Streamable HTTP (`http`) |
-| URL | `https://mcp.parta.io/inst-design/v1beta` |
+| URL | `https://mcp.parta.io/inst-design/v1` |
 | Auth | OAuth (in-client sign-in on first use) |
 
 ## What it does
@@ -26,7 +26,7 @@ Once connected, your assistant can use the Parta Instructional Design tools to:
 
 ## Connect
 
-Pick your client. Everything reduces to one URL: `https://mcp.parta.io/inst-design/v1beta`. On first use the client opens an OAuth sign-in — complete it to authorize access.
+Pick your client. Everything reduces to one URL: `https://mcp.parta.io/inst-design/v1`. On first use the client opens an OAuth sign-in — complete it to authorize access.
 
 ### Claude Code
 
@@ -41,7 +41,7 @@ Install as a plugin (bundles the server, no config file needed):
 Or add the server directly from the CLI:
 
 ```bash
-claude mcp add --transport http parta-inst-design https://mcp.parta.io/inst-design/v1beta
+claude mcp add --transport http parta-inst-design https://mcp.parta.io/inst-design/v1
 ```
 
 Then run `/mcp` and complete the OAuth flow when prompted.
@@ -54,7 +54,7 @@ Add to `~/.cursor/mcp.json` (global) or `.cursor/mcp.json` (per project):
 {
   "mcpServers": {
     "parta-inst-design": {
-      "url": "https://mcp.parta.io/inst-design/v1beta"
+      "url": "https://mcp.parta.io/inst-design/v1"
     }
   }
 }
@@ -69,7 +69,7 @@ Add to `.vscode/mcp.json` in your workspace:
   "servers": {
     "parta-inst-design": {
       "type": "http",
-      "url": "https://mcp.parta.io/inst-design/v1beta"
+      "url": "https://mcp.parta.io/inst-design/v1"
     }
   }
 }
@@ -83,7 +83,7 @@ Add to `~/.codeium/windsurf/mcp_config.json`:
 {
   "mcpServers": {
     "parta-inst-design": {
-      "serverUrl": "https://mcp.parta.io/inst-design/v1beta"
+      "serverUrl": "https://mcp.parta.io/inst-design/v1"
     }
   }
 }
@@ -98,7 +98,7 @@ Most clients accept a standard `mcpServers` block with an HTTP transport (Claude
   "mcpServers": {
     "parta-inst-design": {
       "type": "http",
-      "url": "https://mcp.parta.io/inst-design/v1beta"
+      "url": "https://mcp.parta.io/inst-design/v1"
     }
   }
 }
@@ -108,16 +108,18 @@ Most clients accept a standard `mcpServers` block with an HTTP transport (Claude
 
 This repository ships a [`server.json`](server.json) that follows the [official MCP registry](https://github.com/modelcontextprotocol/registry) schema, so the server can be published to the registry and discovered from any registry-aware client (including the [GitHub MCP Registry](https://github.com/mcp)).
 
-Namespace: `io.parta/inst-design` (verified via the `parta.io` domain).
+Namespace: `io.parta/inst-design` (verified via the `parta.io` domain). Publishing is automated by the manual [`Publish to MCP Registry`](.github/workflows/publish-mcp.yml) GitHub Actions workflow — see [PUBLISHING.md](PUBLISHING.md) for setup and how to run it.
 
 ## Repository layout
 
 ```text
 .
-├── server.json            # MCP registry manifest (universal — any MCP client)
+├── server.json                        # MCP registry manifest (universal — any MCP client)
+├── .github/workflows/publish-mcp.yml  # manual workflow that publishes to the MCP registry
+├── PUBLISHING.md                      # how to configure and run publishing
 ├── .claude-plugin/
-│   ├── plugin.json        # Claude Code plugin manifest (declares the remote server)
-│   └── marketplace.json   # Claude Code marketplace catalog (enables /plugin marketplace add)
+│   ├── plugin.json                    # Claude Code plugin manifest (declares the remote server)
+│   └── marketplace.json               # Claude Code marketplace catalog (enables /plugin marketplace add)
 └── README.md
 ```
 

@@ -12,7 +12,7 @@
   "remotes": [
     {
       "type": "streamable-http",
-      "url": "https://mcp.parta.io/inst-design/v1beta"
+      "url": "https://mcp.parta.io/inst-design/v1"
     }
   ]
 }

@@ -1,0 +1,65 @@
+name: Publish to MCP Registry
+
+# Manual-only publish to the official MCP Registry (registry.modelcontextprotocol.io).
+# From there the server syncs into the GitHub MCP Registry (https://github.com/mcp).
+#
+# PUBLIC REPO NOTE: workflow_dispatch can be started ONLY by users with write
+# access to this repository — public visitors and fork PRs cannot trigger it and
+# never receive the signing secret. Setup steps live in PUBLISHING.md.
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Override server.json version, e.g. 1.0.1 (blank = use the value in the file). The registry rejects re-publishing an existing version, so bump it for each publish."
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mcp-registry-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    # The Ed25519 signing key can publish and OVERWRITE any server under
+    # io.parta/*. It is an organization secret limited to selected repos;
+    # this protected Environment gates its use. Restrict the environment to
+    # the `main` branch and, ideally, add a required reviewer — see PUBLISHING.md.
+    environment: mcp-registry-publish
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install mcp-publisher
+        run: |
+          curl -L "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz mcp-publisher
+
+      - name: Override version (optional)
+        if: ${{ inputs.version != '' }}
+        run: |
+          jq --arg v "${{ inputs.version }}" '.version = $v' server.json > server.tmp
+          mv server.tmp server.json
+          echo "server.json version set to ${{ inputs.version }}"
+
+      - name: Validate server.json
+        run: ./mcp-publisher validate server.json
+
+      - name: Authenticate (DNS, domain parta.io)
+        env:
+          MCP_PRIVATE_KEY: ${{ secrets.MCP_PRIVATE_KEY }}
+        run: ./mcp-publisher login dns --algorithm ed25519 --domain parta.io --private-key "$MCP_PRIVATE_KEY"
+
+      - name: Publish
+        run: ./mcp-publisher publish
+
+      - name: Verify listing
+        run: |
+          echo "Querying the registry for io.parta/inst-design…"
+          curl -sf "https://registry.modelcontextprotocol.io/v0/servers?search=io.parta/inst-design" \
+            | jq -r '.servers[] | "\(.server.name)  v\(.server.version)  status=\(._meta["io.modelcontextprotocol.registry/official"].status)"'
